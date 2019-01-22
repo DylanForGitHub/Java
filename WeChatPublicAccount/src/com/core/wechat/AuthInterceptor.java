@@ -24,12 +24,15 @@ public class AuthInterceptor extends AbstractInterceptor {
 		String timestamp = request.getParameter("timestamp");
 		String nonce = request.getParameter("nonce");
 		String echostr = request.getParameter("echostr");
-		
 		String mySignature = SHA1.getSHA1New(TOKEN, timestamp, nonce);
 		
-		PrintWriter out = response.getWriter();
-		
-		
+		if(mySignature != null && mySignature != "" && mySignature.equals(signature)) {
+			System.out.println("签名校验通过。");
+			response.getWriter().write(echostr);
+		}
+		else {
+			System.out.println("签名校验失败.");
+		}
 		
 		String result = invocation.invoke();
 		

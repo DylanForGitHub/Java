@@ -9,27 +9,12 @@
     <constant name="struts.custom.i18n.resources" value="global" />
    <package name="helloworld" extends="struts-default">
       <interceptors>
-      		<interceptor name="MyInterceptor" class="test.structs2.MyInterceptor"></interceptor>
-      		<interceptor name="LocaleInterceptor" class="test.structs2.LocaleInterceptor"></interceptor>
-      		<interceptor-stack name="allinterceptor">	
-	      		<interceptor-ref name="params" />
-	      		<interceptor-ref name="timer" />
-	      		<interceptor-ref name="MyInterceptor" />
-      		</interceptor-stack>
+      		<interceptor name="AuthInterceptor" class="com.core.wechat.AuthInterceptor"></interceptor>
       </interceptors>
-      <action name="Hello" class="test.structs2.HelloWordAction" method="execute">	
-      		<interceptor-ref name="allinterceptor"/>
-            <result name="success">/HelloWorld.jsp</result>
-            <result name="failed" type="freemarker">/WEB-INF/template/HelloWorldFM.ftl</result>
-      </action>
-      
-      <action name="locale" class="test.structs2.Locale" method="execute">
-      	<interceptor-ref name="LocaleInterceptor" />
-         <result name="success">/HelloI18n.jsp</result>
-      </action>
-      
-      <action name="UserList" class="test.structs2.UserListAction" method="execute">
-         <result name="success" type="freemarker">/WEB-INF/template/UserList.ftl</result>
+      <action name="Auth" class="com.action.wechat.AuthAction" method="execute">
+	      <interceptor-ref name="allinterceptor"/>
+	      <result name="success">/HelloWorld.jsp</result>
+          <result name="failed" type="freemarker">/WEB-INF/template/HelloWorldFM.ftl</result>
       </action>
    </package>
 </struts>

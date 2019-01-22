@@ -1,6 +1,6 @@
 package com.core.wechat;
 
-import ActionSupport;
+import com.opensymphony.xwork2.ActionSupport;
 
 public class AuthAction extends ActionSupport {
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://java.sun.com/xml/ns/javaee" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+id="WebApp_ID" version="3.0">
+
+  <display-name>MySiteFilter</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+      <filter-name>struts2</filter-name>
+      <filter-class>
+         org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter
+      </filter-class>
+   </filter>
+
+   <filter-mapping>
+      <filter-name>struts2</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
+   <servlet>
+	 <servlet-name>freemarker</servlet-name>
+	 <!-- 处理freemarker模板请求的Servlet -->
+	 <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
+	 <!--下面的配置freemarke的ftl文件的位置-->
+	 <init-param>
+		<param-name>TemplatePath</param-name>
+		<param-value>/template</param-value>
+	 </init-param>
+	 <!--是否和服务器（tomcat)一起启动。-->
+	 <load-on-startup>1</load-on-startup>
+    </servlet>
+ 
+    <servlet-mapping>
+	<servlet-name>freemarker</servlet-name>
+	<url-pattern>*.ftl</url-pattern>
+    </servlet-mapping>
+ 
+    <servlet>  
+        <servlet-name>JspSupportServlet</servlet-name>  
+	<servlet-class>  
+	    org.apache.struts2.views.JspSupportServlet  
+	</servlet-class>  
+	<!-- 配置JspSupportServlet自启动   -->
+	<load-on-startup>1</load-on-startup>  
+    </servlet>
+</web-app>

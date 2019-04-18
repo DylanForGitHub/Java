@@ -11,13 +11,13 @@ public class SHA1 {
 		try {
 			String[] array = new String[] { token, timestamp, nonce, encrypt };
 			StringBuffer sb = new StringBuffer();
-			// ×Ö·û´®ÅÅÐò
+			// ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Arrays.sort(array);
 			for (int i = 0; i < 4; i++) {
 				sb.append(array[i]);
 			}
 			String str = sb.toString();
-			// SHA1Ç©ÃûÉú³É
+			// SHA1Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			md.update(str.getBytes());
 			byte[] digest = md.digest();
@@ -43,13 +43,12 @@ public class SHA1 {
 		try {
 			String[] array = new String[] { token, timestamp, nonce };
 			StringBuffer sb = new StringBuffer();
-			// ×Ö·û´®ÅÅÐò
 			Arrays.sort(array);
 			for (int i = 0; i < 3; i++) {
 				sb.append(array[i]);
 			}
 			String str = sb.toString();
-			// SHA1Ç©ÃûÉú³É
+
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			md.update(str.getBytes());
 			byte[] digest = md.digest();
@@ -64,7 +63,8 @@ public class SHA1 {
 				hexstr.append(shaHex);
 			}
 			return hexstr.toString();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new AesException(AesException.ComputeSignatureError);
 		}

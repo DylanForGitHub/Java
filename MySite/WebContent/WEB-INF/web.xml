@@ -23,9 +23,9 @@ id="WebApp_ID" version="3.0">
    
    <servlet>
 	 <servlet-name>freemarker</servlet-name>
-	 <!-- 处理freemarker模板请求的Servlet -->
+	 <!-- freemarker模板请求的Servlet -->
 	 <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
-	 <!--下面的配置freemarke的ftl文件的位置-->
+	 <!--freemarke的ftl文件的位置-->
 	 <init-param>
 		<param-name>TemplatePath</param-name>
 		<param-value>/template</param-value>

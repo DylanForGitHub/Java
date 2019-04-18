@@ -3,8 +3,10 @@ package com.common.wechat;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Proxy;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.security.cert.CertificateException;
 import javax.net.ssl.*;
 
 public class NetWorkHelper {
@@ -15,34 +17,35 @@ public class NetWorkHelper {
 		String resultData = "";
 		try {
 			url = new URL(reqUrl);
-			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-			TrustManager[] trustManagers = {xTrustManager};
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new java.net.InetSocketAddress("proxy.global.sonyericsson.net", 8080));
+			HttpsURLConnection con = (HttpsURLConnection)url.openConnection(proxy);
 			
+			//certificates
+			TrustManager[] trustManagers = {xTrustManager};	
 			SSLContext sslContext = SSLContext.getInstance("TLS");
-			sslContext.init(null, trustManagers, null);
-			
+			//SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+			sslContext.init(null, trustManagers, new java.security.SecureRandom());			
 			con.setSSLSocketFactory(sslContext.getSocketFactory());
 			con.setHostnameVerifier(new HostnameVerifier() {
-				
 				@Override
 				public boolean verify(String arg0, SSLSession arg1) {
-					// TODO Auto-generated method stub
 					return true;
 				}
 			});
 			
 			con.setDoInput(true);
-			
-			con.setDoOutput(false);
-			con.setUseCaches(false);
+			//con.setDoOutput(false);
+			con.setDoOutput(true);
+			//con.setUseCaches(false);
 			if(null != requestMethod && !requestMethod.equals("")) {
 				con.setRequestMethod(requestMethod);
 			} else {
 				con.setRequestMethod("GET");
 			}
-			
+			//con.setRequestProperty("Content-type", "application/json");
+			con.connect();
 			inputStream = con.getInputStream();
-			InputStreamReader iStreamReader = new InputStreamReader(inputStream);
+			InputStreamReader iStreamReader = new InputStreamReader(inputStream,"utf-8");
 			BufferedReader bufferedReader = new BufferedReader(iStreamReader);
 			String inputLine;
 			while((inputLine = bufferedReader.readLine()) != null) {
@@ -64,12 +67,14 @@ public class NetWorkHelper {
 		}
 		
 		@Override
-		public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
+		public void checkClientTrusted(X509Certificate[] arg0, String arg1) 
+				throws CertificateException {
 
 		}
 		
 		@Override
-		public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
+		public void checkServerTrusted(X509Certificate[] arg0, String arg1) 
+				throws CertificateException {
 
 		}
 	};

@@ -15,8 +15,8 @@ import com.alibaba.fastjson.*;
 			urlPatterns={"/AccessTokenServlet"},
 			loadOnStartup=1,
 			initParams= {
-					@WebInitParam(name="appId", value=""),
-					@WebInitParam(name="appSecret", value="")})
+					@WebInitParam(name="appId", value="wx03e815f869262ec4"),
+					@WebInitParam(name="appSecret", value="4cd2bc3b23876c074f8770e8e63a75b3")})
 public class AccessTokenServlet extends HttpServlet {
 	@Override 
 	public void init() throws ServletException {
@@ -25,20 +25,24 @@ public class AccessTokenServlet extends HttpServlet {
 		
 		final String appId = getInitParameter("appId");
 		final String appSecret = getInitParameter("appSecret");
-		
-		Thread thread = new Thread(new Runnable() {
-			
+		System.out.println("appId:" + appId);
+		System.out.println("appSecret:" + appSecret);
+		Thread thread = new Thread(new Runnable() {			
 			@Override
 			public void run() {
 				while (true) {
 					try {
 						AccessTokenInfo.accessToken = getAccessToken(appId, appSecret);
 						if(AccessTokenInfo.accessToken != null) {
+							System.out.println("Get accesstoken successfully.");
 							Thread.sleep(7000 * 1000);
 						} else {
-							Thread.sleep(1000 * 3);
+							System.out.println("Failed to get access token last time, we will get new access token again in next 3 mins.");
+							Thread.sleep(1000 * 3 * 60);
+							System.out.println("Start to get new access token again after 3 mins.");
 						}
 					} catch (Exception e) {
+						System.out.println("Get Access Token error in thread.");
 						System.out.println(e.getMessage());
 						e.printStackTrace();
 						try {
@@ -52,7 +56,7 @@ public class AccessTokenServlet extends HttpServlet {
 				
 			}
 		});
-		//thread.start();
+		thread.start();
 	}
 	
 	private AccessToken getAccessToken(String appId, String appSecret) {
